@@ -57,6 +57,3 @@ Perplexity:
 
 The perplexity is increasing as we increased the N number of grams in our model. Why the perplexity increases as we increases the number of grams is because the probability of a string of words is less likely as we increased the number of words in the string. But the perplexity is still very low, meaning that the test and development data uses similar words as the train data.  This shows that the test and develpoment data would likely to occur when we train our model with the train data. This is expected to happen because the train, test, and development data all came from the same author and the same three books. If we were to change the test, train, of development data with different authors and books, then we would expect to have a higher perplexity. If we were to continue this work in the future, we would want to generalize the Ngrams, so that we can pass in any N, to calculate the Ngram probabilities and see the trend of increasing perplexity is still true as we increase the number of N in the Ngram.
 
-**Data Statement**
-
-
