@@ -33,7 +33,16 @@ Then for a unigram we estimate:
 
 For a bigram we estimate:
 
-![bigram_equation](unigram_equation.jpg?raw=true "Bigram Equation")
+![bigram_equation](bigram_equation.jpg?raw=true "Bigram Equation")
+
+For a trigram we estimate:
+
+![trigram_equation](trigram_equation.jpg?raw=true "Trigram Equation")
+
+For perplexity, we used the equation
+
+![perplexity_equation](perplexity_equation.jpg?raw=true "Perplexity Equation")
+
 
 **Dataset:**
 
