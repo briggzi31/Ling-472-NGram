@@ -25,7 +25,7 @@ P(w<sub>i</sub> | word<sub>i-1</sub>, word<sub>i-2</sub>, word<sub>i-3</sub>)
 
 To estimate the probabilities, we used these formula:
 
-Let T denote the total number of words in the given corpus
+Let N denote the total number of words in the given corpus and V denote the number of unique words in the given corpus
 
 Then for a unigram we estimate:
 
@@ -33,7 +33,7 @@ Then for a unigram we estimate:
 
 For a bigram we estimate:
 
-P(w<sub>i</sub>) := count()
+![bigram_equation](unigram_equation.jpg?raw=true "Bigram Equation")
 
 Dataset:
 
