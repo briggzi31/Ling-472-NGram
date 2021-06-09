@@ -21,17 +21,8 @@ class LanguageModel:
         self.bigram_count = {}
         self.sent_probs = {}
         self.V_num = 0
-        self.N_tot = 0
 
     def _calculate_bigram_probabilities(self):
-        '''
-
-        :param sentences:
-        :param word_count:
-        :param bigram_count:
-
-        :return:
-        '''
 
         # don't include <sos> in our vocabulary size
         self.V_num = len(self.unigram_count) - 1
@@ -90,23 +81,23 @@ class LanguageModel:
             sent = sent[:-6]
             self.sent_probs[sent] = round(sent_prob, 3)
 
-    def _calculate_perplexity(self):
-        perplexity = 0
-        for sentence, prob in self.sent_probs.items():
-            perplexity += prob
-
-        return round(2 ** ((perplexity * -1)/self.N_tot), 3)
+    # def _calculate_perplexity(self, n_tot):
+    #     perplexity = 0
+    #     for sentence, prob in self.sent_probs.items():
+    #         perplexity += prob
+    #
+    #     return round(2 ** ((perplexity * -1) / n_tot), 3)
 
 
 
     def train(self, train_corpus):
 
         # clean the text
-        sentences = counts.clean_file_contents(train_corpus)
+        sentences, n_tot = counts.clean_file_contents(train_corpus)
 
         # get unigram counts
-        self.unigram_count, self.N_tot = counts.count_unigrams(sentences)
-        self.N_tot -= len(sentences)
+        self.unigram_count = counts.count_unigrams(sentences)
+        n_tot -= len(sentences)
         self.unigram_count['<sos>'] -= len(sentences)
 
         # print('original: ')
@@ -154,7 +145,8 @@ class LanguageModel:
 
     def score(self, test_corpus):
         # clean the text
-        sentences = counts.clean_file_contents(test_corpus)
+        sentences, n_tot = counts.clean_file_contents(test_corpus)
+        n_tot -= len(sentences)
 
 
         # return unked copy of sentences
@@ -178,7 +170,7 @@ class LanguageModel:
 
         # self._print_sent_prob()
         sum_prob = sentences_probs_df["Probability"].astype("float").sum()
-        perplexity = round(2 ** (-(1 / self.N_tot) * sum_prob), 3)
+        perplexity = round(2 ** (-(1 / n_tot) * sum_prob), 3)
         # perplexity = self._calculate_perplexity()
         print()
         print('Perplexity =', perplexity)

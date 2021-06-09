@@ -5,34 +5,36 @@ import math
 import counts
 
 # TODO: Implement a Laplace-smoothed unigram model :)
+
+
 class LanguageModel:
 
     def __init__(self):
         self.word_count = {}
         self.sent_prob = {}
         self.df = pd.DataFrame()
-        self.total_count = 0
 
     def train(self, train_corpus):
 
         # Read in and cleans the training corpus
-        sentences = counts.clean_file_contents(train_corpus)
+        sentences, total_count = counts.clean_file_contents(train_corpus)
 
         # Keeps a dictionary of the vocabulary and the counts of individual words and the total counts in the corpus.
-        self.word_count, self.total_count = counts.count_unigrams(sentences)
+        self.word_count = counts.count_unigrams(sentences)
 
         # Removing the start and end token from the vocabulary and from the total counts 
         self.word_count.pop("<sos>")
         self.word_count.pop("<eos>")
-        self.total_count -= 3 * len(sentences)
+        total_count -= 3 * len(sentences)
+        print('unigram method:', total_count)
+
 
         # Calculate log2 Probability of individual words with Laplace Smoothing
         prob_df = [] 
         for word in self.word_count:
-            word_prob = (self.word_count[word] + 1) / (self.total_count + len(self.word_count))
+            word_prob = (self.word_count[word] + 1) / (total_count + len(self.word_count))
             log2_prob = math.log2(word_prob)
             prob_df.append([word, self.word_count[word], word_prob, round(log2_prob, 3)])
-
 
         column_names = ["word", "Count", "Probability", "log2 Probability"]
 
@@ -54,7 +56,8 @@ class LanguageModel:
     def score(self, test_corpus):
 
         # Read in and cleans the test/dev .txt files
-        sentences = counts.clean_file_contents(test_corpus)
+        sentences, n_tot = counts.clean_file_contents(test_corpus)
+        n_tot -= 3 * len(sentences)
 
         # Create UNK tokens for OOV words
         unk = counts.unk_sentences(sentences, self.word_count)
@@ -102,6 +105,6 @@ class LanguageModel:
 
         # Calculate perplexity
         sum_prob = test_prob["log2 Probability"].astype("float").sum()
-        perplexity = round(2 ** (-(1 / self.total_count) * sum_prob), 3)
+        perplexity = round(2 ** (-(1 / n_tot) * sum_prob), 3)
         print()
         print('Perplexity: ' + str(perplexity))

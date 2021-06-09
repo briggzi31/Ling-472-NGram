@@ -56,13 +56,14 @@ In our training dataset, we replaced words that only appear once in our corpus w
 
 Perplexity:
 
-|         | Devlopment | Test  |
-|---------|------------|-------|
-| Unigram | 2.219      | 2.216 |
-| Bigram  | 2.231      | 2.231 |
-| Trigram | 2.533      | 2.529 |
+|         | Development | Test  |
+|---------|-------------|-------|
+| Unigram | 552.34      | 556.307 |
+| Bigram  | 579.56      | 588.059 |
+| Trigram | 1592.226      | 1599.389 |
 
 **Discussion of Results:**
 
-The perplexity is increasing as we increased the N number of grams in our model. Why the perplexity increases as we increases the number of grams is because the probability of a string of words is less likely as we increased the number of words in the string. But the perplexity is still very low, meaning that the test and development data uses similar words as the train data.  This shows that the test and develpoment data would likely to occur when we train our model with the train data. This is expected to happen because the train, test, and development data all came from the same author and the same three books. If we were to change the test, train, of development data with different authors and books, then we would expect to have a higher perplexity. If we were to continue this work in the future, we would want to generalize the Ngrams, so that we can pass in any N, to calculate the Ngram probabilities and see the trend of increasing perplexity is still true as we increase the number of N in the Ngram.
+The perplexity is increasing as we increased the N number of grams in our model. Why the perplexity increases as we increase the number of grams is because the probability of a string of words is less likely as we increased the number of words in the string. The Trigram perplexity is significantly higher because the trigram combinations present in the Development and Test data are very unlikely to appear in the Train data. The perplexity of the development and test sets are similar, meaning that the test and development data uses similar words and similar words as the train data. This shows that the test and development data would likely to occur when we train our model with the train data. This is expected to happen because the train, test, and development data all came from the same author and the same three books. If we were to change the test, train, of development data with different authors and books, then we would expect to have a higher perplexity. If we were to continue this work in the future, we would want to generalize the Ngrams, so that we can pass in any N, to calculate the Ngram probabilities and see the trend of increasing perplexity is still true as we increase the number of N in the Ngram. Specifically, we hypothesize that we would see an exponential growth trend as we increase the number of grams, and creating a generalized N-gram model would help to test out our hypothesis.
+
 

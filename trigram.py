@@ -14,7 +14,6 @@ class LanguageModel:
         self.trigram_probs = {}
         self.sent_probs = {}
         self.V_num = 0
-        self.N_tot = 0
 
     def _calculate_trigram_probabilities(self):
         # trigram_df_maker = []
@@ -87,9 +86,9 @@ class LanguageModel:
 
 
     def train(self, train_corpus):
-        sentences = counts.clean_file_contents(train_corpus)
+        sentences, n_tot = counts.clean_file_contents(train_corpus)
 
-        self.unigram_count, self.N_tot = counts.count_unigrams(sentences)
+        self.unigram_count = counts.count_unigrams(sentences)
 
         self.unked_sentences = counts.unk_sentences(sentences, self.unigram_count)
 
@@ -135,7 +134,7 @@ class LanguageModel:
         # _print_sorted(sorted_prob)
 
     def score(self, test_corpus):
-        sentences = counts.clean_file_contents(test_corpus)
+        sentences, n_tot = counts.clean_file_contents(test_corpus)
 
         self.unked_sentences = counts.unk_sentences(sentences, self.unigram_count)
 
@@ -162,7 +161,7 @@ class LanguageModel:
 
         # Calculate perplexity
         sum_prob = df_sentence_probs["Probability"].astype("float").sum()
-        perplexity = round(2 ** (-(1 / self.N_tot) * sum_prob), 3)
+        perplexity = round(2 ** (-(1 / n_tot) * sum_prob), 3)
         print()
         print('Perplexity: ' + str(perplexity))
 
