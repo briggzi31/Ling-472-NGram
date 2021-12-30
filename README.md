@@ -1,4 +1,4 @@
-# Ling-472-NGram
+# NGram
 
 Prachatorn Joemjumroon and Sam Briggs
 
